@@ -32,12 +32,50 @@ class Server {
         System.out.println("Server launched");
         OutputStream out = socket.getOutputStream();
         InputStream in = socket.getInputStream();
-        out.write(1);
 
-        stringWrite(out, "Type first number");
-        stringWrite(out, "Type second number");
-        stringWrite(out, "Type action you want: +,-,*,/");
 
+
+        double first;
+        double second;
+        double result;
+        byte[] b = new byte[8];
+        int isContinued = 1;
+        while (isContinued != 0) {
+            boolean devByZero = false;
+            stringWrite(out, "Type first number \n");
+            in.read(b);
+            first = toDouble(b);
+            stringWrite(out, "Type second number \n");
+            in.read(b);
+            second = toDouble(b);
+
+            stringWrite(out, "Type number of action you want: 1: +, 2: -, 3: *, 4: / \n");
+            switch (in.read()) {
+                case 1:
+                    result = first + second;
+                    break;
+                case 2:
+                    result = first - second;
+                    break;
+                case 3:
+                    result = first * second;
+                    break;
+                case 4:
+                    result = first / second;
+                    if(second == 0)
+                        devByZero = true;
+                    break;
+                default:
+                    result = 0;
+            }
+            System.out.println(result);
+            if (devByZero)
+                stringWrite(out, "Devision by zero\n");
+            else
+                stringWrite(out, "Result = " + result + "\n");
+            stringWrite(out, "Continue? \n 0 - No\n");
+            isContinued = in.read();
+        }
         /*
         while(in.read() != -1){
             int i = 0;
