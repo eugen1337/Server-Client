@@ -35,6 +35,19 @@ public class Server {
                 case 2:
                     model.stop();
                     break;
+                case 3:
+                    if (model.barThread.getIsPaused()) {
+                        model.barThread.setIsPaused(false);
+                        synchronized (System.out) {
+                            System.out.notify();
+                        }
+                        //out.write(1);
+                    }
+                    else {
+                        //out.write(2);
+                        model.barThread.setIsPaused(true);
+                    }
+                    break;
 
         }
     }

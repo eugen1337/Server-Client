@@ -32,7 +32,7 @@ public class HelloController {
     private Button startButton;
     @FXML
     private Button stopButton;
-    private boolean running = false;
+    private boolean isPaused = false;
     Model model;
     @FXML
     protected void startClicked() throws IOException {
@@ -49,24 +49,20 @@ public class HelloController {
         stopButton.setDisable(true);
     }
     @FXML
-    protected void pauseClicked()
-    {
-        /*if (model.barThread.getIsPaused()) {
-            model.barThread.setIsPaused(false);
+    protected void pauseClicked() throws IOException {
+        client.sendAction(3);
+        if (isPaused) {
+            isPaused = !isPaused;
             pauseButton.setText("Пауза");
-            synchronized (System.out) {
-                System.out.notify();
-            }
             stopButton.setDisable(false);
             startButton.setDisable(false);
 
         }
         else {
-            model.barThread.setIsPaused(true);
+            isPaused = !isPaused;
             pauseButton.setText("Продолжить");
             startButton.setDisable(true);
             stopButton.setDisable(true);
-
-        }*/
+        }
     }
 }

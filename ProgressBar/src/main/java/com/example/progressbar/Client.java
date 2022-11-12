@@ -14,6 +14,8 @@ public class Client {
     private InputStream in;
     private OutputStream out;
     private double value;
+
+    private PaintThread paint;
     public static double toDouble(byte[] bytes) {
         return ByteBuffer.wrap(bytes).getDouble();
     }
@@ -22,13 +24,25 @@ public class Client {
         in = s.getInputStream();
         out = s.getOutputStream();
         this.progress = progress;
-        PaintThread paint = new PaintThread();
+        paint = new PaintThread();
         paint.start();
     }
     public void sendAction(int action) throws IOException {
         out.write(action);
     }
+    public int receiveAction() throws IOException {
+        int a = in.read();
+        System.out.println("a =======" + a);
+        return a;
+    }
 
+    /*public void pause() throws IOException {
+        try {
+            paint.wait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }*/
 
     private class PaintThread extends Thread{
         @Override
