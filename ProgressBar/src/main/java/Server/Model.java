@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 public class Model {
-
     public static byte[] toByteArray(double value) {
         byte[] bytes = new byte[8];
         ByteBuffer.wrap(bytes).putDouble(value);
@@ -21,7 +20,6 @@ public class Model {
                 out.write(toByteArray(value));
             }
         });
-
     }
     public void start()
     {
@@ -60,7 +58,6 @@ class progressBarThread extends Thread {
                     rerun = false;
                 }
                 percents = i * 0.001;
-
                 updater.update(percents);
                 Thread.sleep(20);
                 if(isPaused) {

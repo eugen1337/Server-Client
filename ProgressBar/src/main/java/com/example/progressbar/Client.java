@@ -32,17 +32,8 @@ public class Client {
     }
     public int receiveAction() throws IOException {
         int a = in.read();
-        System.out.println("a =======" + a);
         return a;
     }
-
-    /*public void pause() throws IOException {
-        try {
-            paint.wait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 
     private class PaintThread extends Thread{
         @Override
@@ -56,7 +47,6 @@ public class Client {
                     System.out.println(value);
                 }
                 catch (IOException e) {
-                    System.out.print("OSFEINSOING");
                     throw new RuntimeException(e);
                 }
                 Platform.runLater(new Runnable() {

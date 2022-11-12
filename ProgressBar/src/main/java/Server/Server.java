@@ -41,15 +41,12 @@ public class Server {
                         synchronized (System.out) {
                             System.out.notify();
                         }
-                        //out.write(1);
                     }
                     else {
-                        //out.write(2);
                         model.barThread.setIsPaused(true);
                     }
                     break;
-
+            }
         }
-    }
     }
 }
