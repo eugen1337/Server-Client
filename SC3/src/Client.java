@@ -13,9 +13,9 @@ public class Client {
 
         System.out.println( stringRead(in));
         stringWrite(out, scanner.nextLine());
-
         while (in.read() != 1)
         {
+            System.out.println(stringRead(in));
             System.out.println(stringRead(in));
             int count = scanner.nextInt();
             while (count < 1 || count > 5) {

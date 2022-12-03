@@ -1,3 +1,5 @@
+package Server;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,19 +26,21 @@ public class Server {
         ClientsOnServer[] clients = new ClientsOnServer[2];
         clients[0] = clientAccept(serverSocket);
         clients[1] = clientAccept(serverSocket);
+
         int mathes = 37;
         int a = (int) ( 1 + Math.random() * 2 );
         while (mathes > 0)
         {
+            System.out.println(mathes);
             a = (a + 1) % 2;
-            stringWrite(clients[a].out, "Remaining " + mathes + "\n") ;
-            stringWrite(clients[a].out, "Type count of matches\n" );
+            stringWrite(clients[a].out, "Remaining " + mathes + "\n" + "Type count of matches\n" );
             mathes -= clients[a].in.read();
+            System.out.println(mathes);
         }
-        clients[0].out.write(1);
-        clients[1].out.write(1);
-        stringWrite(clients[0].out, "Gamer " + clients[a].name + " is winner\n");
-        stringWrite(clients[1].out, "Gamer " + clients[a].name + " is winner\n");
+        for(int i = 0; i < ClientsOnServer.count; i++) {
+            clients[i].out.write(1);
+            stringWrite(clients[i].out, "Gamer " + clients[a].name + " is winner\n");
+        }
         System.out.println(clients[a].name + " is winner");
 
     }
@@ -55,4 +59,3 @@ public class Server {
         return new String(b);
     }
 }
-
