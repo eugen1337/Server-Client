@@ -1,6 +1,7 @@
 package com.example.progressbar;
 
 import Server.Model;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
@@ -8,22 +9,6 @@ import javafx.scene.control.ProgressBar;
 import java.io.IOException;
 
 public class HelloController {
-
-    Client client;
-
-    @FXML
-    public void initialize() throws IOException {
-        try {
-            Client client = new Client(progress);
-            this.client = client;
-        }
-        catch (IOException e){
-            System.out.println("OSHIBKA V CLIENTE");
-        }
-        pauseButton.setDisable(true);
-        stopButton.setDisable(true);
-    }
-
     @FXML
     private ProgressBar progress;
     @FXML
@@ -33,7 +18,26 @@ public class HelloController {
     @FXML
     private Button stopButton;
     private boolean isPaused = false;
-    Model model;
+    private Client client;
+
+    @FXML
+    public void initialize() throws IOException {
+        try {
+             client = new Client((double percents) -> {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        progress.setProgress(percents);
+                    }
+                });
+
+            });
+        }
+        catch (IOException e){
+            System.out.println("Client error");
+        }
+        pauseButton.setDisable(true);
+        stopButton.setDisable(true);
+    }
     @FXML
     protected void startClicked() throws IOException {
         client.sendAction(1);

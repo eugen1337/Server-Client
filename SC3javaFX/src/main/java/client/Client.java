@@ -77,10 +77,10 @@ public class Client {
     }
     public static String stringRead(InputStream in) throws IOException {
         int count = in.read();
-        //System.out.println("count = " + count);
+        System.out.println("count = " + count);
         byte[] b = new byte[count];
         in.read(b);
-        return new String(b);
+        return new String(b, "UTF-8");
     }
 
     public interface Read {

@@ -61,7 +61,8 @@ public class HelloController {
                     throw new RuntimeException(e);
                 }
             }).start();
-            label.setText("Waiting second gamer");
         }
+        //textField.setText("");
+        label.setText("Waiting second gamer");
     }
 }

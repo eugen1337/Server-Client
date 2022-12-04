@@ -10,31 +10,21 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 
 public class Client {
-    private ProgressBar progress;
     private InputStream in;
     private OutputStream out;
     private double value;
-
     private PaintThread paint;
-    public static double toDouble(byte[] bytes) {
-        return ByteBuffer.wrap(bytes).getDouble();
-    }
-    public Client(ProgressBar progress) throws IOException {
+    Updatable updater;
+
+    public Client(Updatable updater) throws IOException {
         Socket s = new Socket("127.0.0.1",8000);
         in = s.getInputStream();
         out = s.getOutputStream();
-        this.progress = progress;
+
+        this.updater = updater;
         paint = new PaintThread();
         paint.start();
     }
-    public void sendAction(int action) throws IOException {
-        out.write(action);
-    }
-    public int receiveAction() throws IOException {
-        int a = in.read();
-        return a;
-    }
-
     private class PaintThread extends Thread{
         @Override
         public void run() {
@@ -45,16 +35,21 @@ public class Client {
                     in.read(b);
                     value = toDouble(b);
                     System.out.println(value);
+                    updater.update(value);
                 }
                 catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        progress.setProgress(value);
-                    }
-                });
             }
         }
+    }
+    interface  Updatable{
+        public void update(double value) throws IOException;
+    }
+    public void sendAction(int action) throws IOException {
+        out.write(action);
+    }
+    public static double toDouble(byte[] bytes) {
+        return ByteBuffer.wrap(bytes).getDouble();
     }
 }
