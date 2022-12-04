@@ -1,7 +1,6 @@
 package client;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -40,9 +39,6 @@ public class HelloController {
             throw new RuntimeException(e);
         }
     }
-
-    public static boolean isClicked = false;
-
     @FXML
     public void enterClicked() throws InterruptedException, IOException {
 
@@ -57,12 +53,12 @@ public class HelloController {
                         label.setText("matches should be >0 & <6");
                     }
                     client.send(textField.getText(), 1);
+                    textField.setText("");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }).start();
         }
-        //textField.setText("");
         label.setText("Waiting second gamer");
     }
 }

@@ -11,6 +11,7 @@ public class Server {
         Socket socket = serverSocket.accept();
         OutputStream out = socket.getOutputStream();
         InputStream in = socket.getInputStream();
+
         stringWrite(out, "Type your name\n");
         String name = stringRead(in);
         ClientsOnServer client = new ClientsOnServer(out, in, name);
@@ -27,15 +28,15 @@ public class Server {
         clients[0] = clientAccept(serverSocket);
         clients[1] = clientAccept(serverSocket);
 
-        int mathes = 37;
+        int matches = 37;
         int a = (int) ( 1 + Math.random() * 2 );
-        while (mathes > 0)
+        while (matches > 0)
         {
-            System.out.println(mathes);
+            System.out.println(matches);
             a = (a + 1) % 2;
-            stringWrite(clients[a].out, "Remaining " + mathes + "\n" + "Type count of matches\n" );
-            mathes -= clients[a].in.read();
-            System.out.println(mathes);
+            stringWrite(clients[a].out, "Remaining " + matches + "\n" + "Type count of matches\n" );
+            matches -= clients[a].in.read();
+            System.out.println(matches);
         }
         for(int i = 0; i < ClientsOnServer.count; i++) {
             clients[i].out.write(1);
